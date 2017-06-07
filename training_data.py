@@ -18,10 +18,7 @@ def ratings_for_movie(movieID):
     @return: an array of Rating objects for that movieID
     @type: numpy.array
     '''
-    movieID = str(movieID)
-    for _ in range(7 - len(movieID)):
-        movieID = "0" + movieID
-    movie_file = open("mv_%s.txt"%movieID)
+    movie_file = open("mv_%07d.txt"%movieID)
 
     ratings = np.array([])
     movie_file.readline()
