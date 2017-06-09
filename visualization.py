@@ -26,7 +26,7 @@ def plot_rating_histogram(data):
     @type data: numpy.ndarray
     '''
     xx = data[:, 1]
-    mean = np.sum(xx)/xx.size
+    mean = np.sum(xx)/float(xx.size)
 
     plt.title('Rating Histogram: Mean=%.1f'%mean)
     plt.xlabel('Rating')
@@ -37,7 +37,7 @@ def plot_rating_histogram(data):
 
 
 if __name__ == "__main__":
-    data = np.loadtxt('mv_0000001.txt', skiprows=1, delimiter=',',
+    data = np.loadtxt('mv_0000001.txt', skiprows=1, delimiter=',', dtype='int',
                       converters={2: lambda s: datestr2num(s.decode("utf-8"))})
     plot_rating_by_users(data)
     plot_rating_histogram(data)
