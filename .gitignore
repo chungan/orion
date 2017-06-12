@@ -1,2 +1,5 @@
 # Skip python cache
 __pycache__
+
+# Skip data set
+nf_prize_dataset
