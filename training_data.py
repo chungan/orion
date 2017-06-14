@@ -13,7 +13,8 @@ def ratings_for_movie(movieID):
     movie_file = 'mv_%07d.txt'%movieID
     ratings = np.loadtxt(movie_file, delimiter=',', skiprows=1,
                       converters={2: lambda s: datestr2num(s.decode("utf-8"))})
-    movie_column = np.zeros((ratings.shape[0], 1)) + movieID
+    #movie_column = np.zeros((ratings.shape[0], 1)) + movieID
+    movie_column = np.full((ratings.shape[0], 1), movieID)
     return np.concatenate((movie_column, ratings), axis=1)
 
 def all_ratings():
