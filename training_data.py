@@ -1,13 +1,5 @@
 import numpy as np
-
-class Rating:
-    """A single rating which includes user, movie, date, and rating."""
-
-    def __init__(self, userID, movieID, rating, date):
-        self.userID = userID
-        self.movieID = movieID
-        self.rating = rating
-        self.date = date
+from matplotlib.dates import datestr2num
 
 def ratings_for_movie(movieID):
     '''
@@ -15,17 +7,20 @@ def ratings_for_movie(movieID):
     @param movieID: the Netflix-assigned ID for the relevant movie
     @type movieID: int (between 1 and 17770, inclusive)
 
-    @return: an array of Rating objects for that movieID
-    @type: numpy.array
+    @return: an array containing rating data for that movieID
+    @type: numpy.ndarray
     '''
-    movie_file = open("mv_%07d.txt"%movieID)
+    movie_file = 'mv_%07d.txt'%movieID
+    ratings = np.loadtxt(movie_file, delimiter=',', skiprows=1,
+                      converters={2: lambda s: datestr2num(s.decode("utf-8"))})
+    movie_column = np.zeros((ratings.shape[0], 1)) + movieID
+    return np.concatenate((movie_column, ratings), axis=1)
 
-    ratings = np.array([])
-    movie_file.readline()
-    for line in movie_file:
-        rating_params = line.split(",")
-        userID = int(rating_params[0])
-        rating = int(rating_params[1])
-        date = rating_params[2]
-        ratings = np.append(ratings, Rating(userID, movieID, rating, date))
-    return ratings
+def all_ratings():
+    '''
+    Queues all ratings provided by netflix
+
+    @return: an array containing rating data for all 17770 movies
+    @type: numpy.ndarray
+    '''
+    return np.concatenate([ratings_for_movie(i) for i in range(1, 17770)])
