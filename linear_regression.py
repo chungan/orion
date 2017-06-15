@@ -1,3 +1,4 @@
+import numpy as np
 from training_data import ratings_for_movie, specific_user_rating, all_ratings
 
 def predict(userID, movieID, all_ratings):
