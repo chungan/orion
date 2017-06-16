@@ -15,14 +15,15 @@ def predict(userID, movieID, all_ratings):
     @type: float (between 1.0 and 5.0, inclusive)
     '''
     main_user_ratings = all_ratings[all_ratings[:, 1] == userID]
-    true_ratings = ratings_for_user[:, 2] #the b-vector
-
+    true_ratings = main_user_ratings[:, 2] #the b-vector
     main_movie_ratings = ratings_for_movie(movieID)
+    all_movie_ratings = [all_ratings[all_ratings[:, 0] == m] for m in main_user_ratings[:, 0]]
     all_relevant_ratings = []
+    print('Generating a %d x %d matrix'%(len(main_user_ratings), len(main_movie_ratings)))
     for (movie, user, rating, date) in main_movie_ratings:
-        ratings = [specific_user_rating(user, m) for m in main_user_ratings[:, 0]]
+        ratings = [specific_user_rating(user, m) for m in all_movie_ratings]
         all_relevant_ratings.append(ratings)
     all_relevant_ratings = np.array(all_relevant_ratings).T #the A-matrix
-
+    print('Performing regression')
     weights = np.linalg.lstsq(all_relevant_ratings, true_ratings)[0]
     return sum(weights * main_movie_ratings[:, 2])

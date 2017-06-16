@@ -16,19 +16,18 @@ def ratings_for_movie(movieID):
     movie_column = np.full((ratings.shape[0], 1), movieID)
     return np.concatenate((movie_column, ratings), axis=1)
 
-def specific_user_rating(userID, movieID):
+def specific_user_rating(userID, movie_ratings):
     '''
     Queues rating for specific user for given movie.
     If doesn't exist, returns average rating for movie.
     @param userID: the Netflix-assigned ID for the user
     @type userID: int (between 1 to 2649429, inclusive)
-    @param movieID: the Netflix-assigned ID for the relevant movie
-    @type movieID: int (between 1 and 17770, inclusive)
+    @param movie_ratings: ndarray of ratings for one movie
+    @type movieID: numpy.ndarray
 
     @return: a user's rating for the movie, or the average rating
     @type: float
     '''
-    movie_ratings = ratings_for_movie(movieID)
     if userID in movie_ratings[:, 1]:
         return movie_ratings[movie_ratings[:, 1] == userID][0][2]
     return np.mean(movie_ratings[:, 2])
