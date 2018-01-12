@@ -1,4 +1,4 @@
 # orion
 Orion Project
 
-Cool!
+Netflix Challenge attempt.

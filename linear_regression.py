@@ -26,4 +26,4 @@ def predict(userID, movieID, all_ratings):
     all_relevant_ratings = np.array(all_relevant_ratings).T #the A-matrix
     print('Performing regression')
     weights = np.linalg.lstsq(all_relevant_ratings, true_ratings)[0]
-    return sum(weights * main_movie_ratings[:, 2])
+    return round(sum(weights * main_movie_ratings[:, 2]), 4)
